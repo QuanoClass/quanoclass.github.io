@@ -110,6 +110,17 @@
             padding-bottom: 6px;
             color: var(--text-main);
         }
+        /* 頻道頭像樣式（完美圓形與比例自適應） */
+        .channel-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 12px;
+            border: 2px solid var(--border);
+        }
+
         
         .category-list { list-style: none; padding: 0; margin: 0; }
         .category-list li { margin-bottom: 8px; }
@@ -291,6 +302,9 @@
         <!-- 右侧频道简介 -->
         <div class="right-sidebar">
             <div class="sidebar-card">
+                <!-- 頻道頭像：請確保你的 images 資料夾裡有一個叫 avatar.jpg 的圖檔 -->
+                <img src="images/avatar.jpg" alt="夸諾頻道頭像" class="channel-avatar">
+
                 <h3>📺 關於夸諾</h3>
                 <p style="font-size: 13px; color: var(--text-muted); margin: 0 0 10px;">
                     哈囉！我是夸諾。本頻道專注於分享各類高效率開源軟體、實用工具及技術乾貨，帶你解鎖更多科技新玩法！
