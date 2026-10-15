@@ -146,7 +146,9 @@
         }
         .channel-btn:hover { opacity: 0.9; }
 
+        /* 卡片容器：相對定位 */
         .post-card {
+            position: relative;
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -155,11 +157,23 @@
             display: flex;
             flex-direction: row;
             transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
         }
         .post-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
+
+        /* 滿版透明點擊層 */
+        .card-overlay-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
         .post-thumb {
             width: 240px;
             min-height: 160px;
@@ -167,17 +181,23 @@
             background-size: cover;
             background-position: center;
             flex-shrink: 0;
+            pointer-events: none; /* 讓圖片不阻擋點擊 */
         }
+
         .post-content {
             padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            pointer-events: none; /* 關鍵：讓整塊內文容器預設不會阻擋點擊，直接穿透到底層透明連結 */
         }
-        .post-title { font-size: 18px; margin: 0 0 8px; }
+
+        /* 讓標題本身重新恢復可互動，確保滑鼠移上去可以變藍且可點擊 */
+        .post-title { font-size: 18px; margin: 0 0 8px; pointer-events: auto; position: relative; z-index: 2; }
         .post-title a { color: var(--text-main); text-decoration: none; }
         .post-title a:hover { color: var(--primary); }
+        
         .post-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
         .post-snippet { color: var(--text-muted); font-size: 13px; margin: 0 0 12px; }
         .read-more { display: inline-block; color: var(--primary); text-decoration: none; font-weight: 600; font-size: 13px; }
@@ -233,27 +253,28 @@
             </div>
         </div>
 
-        <!-- 中间文章列表：注意每個 post-card 加上了 data-category 屬性 -->
+        <!-- 中间文章列表 -->
         <div class="main-content" id="postContainer">
             
             <!-- 文章 1：屬於 system 分類 -->
-<a href=" " style="text-decoration: none; color: inherit; display: block;">
             <div class="post-card" data-category="system">
+                <a href="posts/tool-tutorial-1.html" class="card-overlay-link" aria-label="閱讀文章"></a >
+                
                 <div class="post-thumb" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');"></div>
                 <div class="post-content">
                     <div>
-                        <h2 class="post-title"><a href="posts/tutorial-1.html">某某強大開源工具 v2.0 最新版發布與詳細使用教程</a ></h2>
+                        <h2 class="post-title"><a href="posts/tool-tutorial-1.html">某某強大開源工具 v2.0 最新版發布與詳細使用教程</a ></h2>
                         <div class="post-meta">發布於 2026-10-14 · 閱讀時間約 5 分鐘</div>
                         <p class="post-snippet">本期影片對應的詳細圖文教程。包含詳細的下載地址、環境配置步驟以及常見報錯解決方案...</p >
                     </div>
-		    <span class="read-more">閱讀全文 → &rarr;</span>
+                    <span class="read-more">閱讀全文 →</span>
                 </div>
             </div>
-	</a >
 
             <!-- 文章 2：屬於 opensource 分類 -->
-<a href=" " style="text-decoration: none; color: inherit; display: block;">
             <div class="post-card" data-category="opensource">
+                <a href="#" class="card-overlay-link" aria-label="閱讀文章"></a >
+
                 <div class="post-thumb" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80');"></div>
                 <div class="post-content">
                     <div>
@@ -261,10 +282,10 @@
                         <div class="post-meta">發布於 2026-10-10</div>
                         <p class="post-snippet">後續會持續更新更多優質開源工具與使用指南，歡迎訂閱頻道並關注本站。</p >
                     </div>
-                    <span class="read-more">閱讀全文 → &rarr;</span>
+                    <span class="read-more">閱讀全文 →</span>
                 </div>
             </div>
-	</a >
+
         </div>
 
         <!-- 右侧频道简介 -->
@@ -293,7 +314,6 @@
     <!-- 分类与搜索过滤脚本 -->
     <script>
         function filterCategory(category) {
-            // 切换按钮高亮
             let buttons = document.querySelectorAll('.category-list button');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
